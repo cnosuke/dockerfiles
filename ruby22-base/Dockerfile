@@ -15,7 +15,7 @@ RUN mkdir -p /tmp
 RUN cd /tmp && wget -O ruby-install-0.5.0.tar.gz https://github.com/postmodern/ruby-install/archive/v0.5.0.tar.gz
 RUN cd /tmp && tar -xzvf ruby-install-0.5.0.tar.gz
 RUN cd /tmp/ruby-install-0.5.0/ && make install
-RUN /tmp/ruby-install-0.5.0/bin/ruby-install --system ruby 2.2.2
+RUN /tmp/ruby-install-0.5.0/bin/ruby-install --system ruby 2.2.3
 
 RUN gem install bundler
 
