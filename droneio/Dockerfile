@@ -1,7 +1,7 @@
 FROM drone/drone
 MAINTAINER cnosuke
 
-ADD drone.toml.sample /etc/drone/drone.toml
+ADD drone.toml /etc/drone/drone.toml
 
 EXPOSE 80
 VOLUME ["/var/lib/drone"]
