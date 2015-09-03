@@ -3,9 +3,11 @@ MAINTAINER cnosuke
 
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y \
+  fonts-takao \
   imagemagick \
   libmagickwand-dev \
   memcached \
+  xvfb \
   qt5-default \
   libqt5webkit5-dev
 
