@@ -9,7 +9,8 @@ RUN apt-get install -y \
   memcached \
   xvfb \
   qt5-default \
-  libqt5webkit5-dev
+  libqt5webkit5-dev \
+  cutycapt
 
 COPY updateGit .
 RUN git clone --depth 1 https://github.com/cnosuke/ytenki.git /app
