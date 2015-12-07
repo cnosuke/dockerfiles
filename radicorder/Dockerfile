@@ -13,8 +13,9 @@ COPY dummy /tmp/
 RUN cd /gems && git clone --depth 1 https://github.com/cnosuke/radicorder.git
 
 WORKDIR /app
-COPY Gemfile app.rb /app/
-ADD env /app/.env
+COPY Gemfile /app/
 RUN cd /app && bundle install
+ADD env /app/.env
+COPY app.rb s3_uploader.rb /app/
 
 CMD ["bundle", "exec", "ruby", "app.rb"]
