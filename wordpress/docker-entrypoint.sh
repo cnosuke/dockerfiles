@@ -56,7 +56,47 @@ if ! [ -e index.php -a -e wp-includes/version.php ]; then
       </IfModule>
       # END WordPress
 
-    EOF
+      # Start Cache Enabler
+      <IfModule mod_rewrite.c>
+        RewriteEngine On
+
+        <IfModule mod_mime.c>
+          # webp HTML file
+          RewriteCond %{REQUEST_URI} /$
+          RewriteCond %{REQUEST_URI} !^/wp-admin/.*
+          RewriteCond %{REQUEST_METHOD} !=POST
+          RewriteCond %{QUERY_STRING} =""
+          RewriteCond %{HTTP_COOKIE} !(wp-postpass|wordpress_logged_in|comment_author)_
+          RewriteCond %{HTTP:Accept-Encoding} gzip
+          RewriteCond %{HTTP:Accept} image/webp
+          RewriteCond %{DOCUMENT_ROOT}/wp-content/cache/cache-enabler/%{HTTP_HOST}%{REQUEST_URI}index-webp.html.gz -f
+          RewriteRule ^(.*) /wp-content/cache/cache-enabler/%{HTTP_HOST}%{REQUEST_URI}index-webp.html.gz [L]
+
+          # gzip HTML file
+          RewriteCond %{REQUEST_URI} /$
+          RewriteCond %{REQUEST_URI} !^/wp-admin/.*
+          RewriteCond %{REQUEST_METHOD} !=POST
+          RewriteCond %{QUERY_STRING} =""
+          RewriteCond %{HTTP_COOKIE} !(wp-postpass|wordpress_logged_in|comment_author)_
+          RewriteCond %{HTTP:Accept-Encoding} gzip
+          RewriteCond %{DOCUMENT_ROOT}/wp-content/cache/cache-enabler/%{HTTP_HOST}%{REQUEST_URI}index.html.gz -f
+          RewriteRule ^(.*) /wp-content/cache/cache-enabler/%{HTTP_HOST}%{REQUEST_URI}index.html.gz [L]
+
+          AddType text/html .gz
+          AddEncoding gzip .gz
+        </IfModule>
+
+        # default HTML file
+        RewriteCond %{REQUEST_URI} /$
+        RewriteCond %{REQUEST_URI} !^/wp-admin/.*
+        RewriteCond %{REQUEST_METHOD} !=POST
+        RewriteCond %{QUERY_STRING} =""
+        RewriteCond %{HTTP_COOKIE} !(wp-postpass|wordpress_logged_in|comment_author)_
+        RewriteCond %{DOCUMENT_ROOT}/wp-content/cache/cache-enabler/%{HTTP_HOST}%{REQUEST_URI}index.html -f
+        RewriteRule ^(.*) /wp-content/cache/cache-enabler/%{HTTP_HOST}%{REQUEST_URI}index.html [L]
+      </IfModule>
+      # End Cache Enabler
+EOF
 
     chown www-data:www-data .htaccess
   fi
