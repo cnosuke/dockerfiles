@@ -24,6 +24,19 @@ RUN curl -o wordpress.tar.gz -SL https://wordpress.org/wordpress-4.4.tar.gz \
 
 COPY docker-entrypoint.sh /entrypoint.sh
 
+# setup plugins
+WORKDIR /usr/src/wordpress/wp-content/plugins
+
+# install cache enabler to create static html and deliver it via CDN (like keyCDN who is the author of this plugin)
+RUN curl -o cache-enabler.zip -SL https://downloads.wordpress.org/plugin/cache-enabler.zip \
+  && unzip cache-enabler.zip && rm cache-enabler.zip
+
+RUN curl -o amazon-web-services.zip -SL https://downloads.wordpress.org/plugin/amazon-web-services.zip \
+  && unzip amazon-web-services.zip && rm amazon-web-services.zip
+
+RUN curl -o amazon-s3-and-cloudfront.0.9.11.zip -SL https://downloads.wordpress.org/plugin/amazon-s3-and-cloudfront.0.9.11.zip \
+  && unzip amazon-s3-and-cloudfront.0.9.11.zip && rm amazon-s3-and-cloudfront.0.9.11.zip
+
 RUN chown -R www-data:www-data /usr/src/wordpress
 
 WORKDIR /var/www/html
