@@ -20,13 +20,11 @@ RUN apt-get install software-properties-common -y
 RUN add-apt-repository ppa:webupd8team/java && \
     apt-get update
 
-# License agreement
+# License agreement and Installing Oracle Java
 RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
-
-RUN  apt-get install oracle-java8-installer -y
+RUN apt-get install oracle-java8-installer -y
 
 RUN mkdir -p /work
-
 WORKDIR /work
 RUN curl -LO "https://s3.amazonaws.com/datapipeline-us-east-1/us-east-1/software/latest/TaskRunner/TaskRunner-1.0.jar"
 
